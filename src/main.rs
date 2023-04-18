@@ -1,6 +1,7 @@
 mod black_jack_card;
 mod black_jack_deck;
 
+// just a test for now, will translate the rest of the C# code later
 fn main() {
 	let mut deck = black_jack_deck::BlackJackDeck::new(true);
 	let mut player1_hand = black_jack_deck::BlackJackDeck::new(false);
