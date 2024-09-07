@@ -28,7 +28,7 @@ impl BlackJackDeck {
 		}
 	}
 	
-	pub fn get_full_and_shuffled_deck() -> Vec<BlackJackCard> {
+	fn get_full_and_shuffled_deck() -> Vec<BlackJackCard> {
 		let mut cards: Vec<BlackJackCard> = vec![];
 		for suit in vec![Suit::Clubs, Suit::Diamonds, Suit::Hearts, Suit::Spades] {
 			for i in 1..14 {

@@ -5,8 +5,7 @@ pub enum Suit {
     Hearts,
     Spades,
 }
-// Q: how to make enum printable?
-// A: implement Display trait
+
 impl std::fmt::Display for Suit {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
@@ -17,8 +16,6 @@ impl std::fmt::Display for Suit {
         }
     }
 }
-
-const CARD_VALUE_NAMES_THAT_STARTS_WITH_VOWEL: [&str; 2] = ["Ace", "8"];
 
 pub struct BlackJackCard {
     pub suit: Suit,
@@ -47,7 +44,7 @@ impl BlackJackCard {
             suit,
             value,
             is_face_up,
-            name_starts_with_vowel: CARD_VALUE_NAMES_THAT_STARTS_WITH_VOWEL.contains(&name.as_str()),
+            name_starts_with_vowel: ["Ace", "8"].contains(&name.as_str()),
             name,
         }
     }
