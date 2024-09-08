@@ -1,36 +1,33 @@
 use crate::black_jack_card::{BlackJackCard, Suit};
 extern crate rand;
 use rand::seq::SliceRandom;
+use std::fmt::{Display, Formatter, Result};
 
 pub struct BlackJackDeck {
 	cards: Vec<BlackJackCard>,
 }
 
 // make BlackJackDeck printable
-impl std::fmt::Display for BlackJackDeck {
-	fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-		let mut cards = String::new();
+impl Display for BlackJackDeck {
+	fn fmt(&self, f: &mut Formatter) -> Result {
 		for card in &self.cards {
-			cards.push_str(&format!("{}, ", card));
+			if let Err(e) = write!(f, "{}, ", card) {
+				return Err(e);
+			}
 		}
-		write!(f, "{}with a sum of {}", cards, self.get_cards_sum())
+		write!(f, "with a sum of {}", self.get_sum())
 	}
 }
 
 impl BlackJackDeck {
-	pub fn new(is_full_and_shuffled: bool) -> BlackJackDeck {
-		if is_full_and_shuffled {
-			BlackJackDeck {
-				cards: BlackJackDeck::get_full_and_shuffled_deck(),
-			}
-		} else {
-			BlackJackDeck { cards: vec![] }
-		}
+	pub fn new() -> BlackJackDeck {
+		BlackJackDeck { cards: vec![] }
 	}
-	
-	fn get_full_and_shuffled_deck() -> Vec<BlackJackCard> {
+
+	pub fn fill_deck(&mut self) {
 		let mut cards: Vec<BlackJackCard> = vec![];
-		for suit in vec![Suit::Clubs, Suit::Diamonds, Suit::Hearts, Suit::Spades] {
+
+		for suit in [Suit::Clubs, Suit::Diamonds, Suit::Hearts, Suit::Spades] {
 			for i in 1..14 {
 				let name = match i {
 					1 => "Ace".to_string(),
@@ -40,32 +37,36 @@ impl BlackJackDeck {
 					13 => "King".to_string(),
 					_ => unreachable!("Invalid value")
 				};
+
 				let value = match i {
 					1 => 11,
 					2..=10 => i,
 					11..=13 => 10,
 					_ => unreachable!("Invalid value")
 				};
-				let cloned_suit = suit.clone();
-				let card = BlackJackCard::new(cloned_suit, value, name, false);
+
+				let card = BlackJackCard::new(suit.clone(), value, name, false);
+
 				cards.push(card);
 			}
 		}
-		cards.shuffle(&mut rand::thread_rng());
-		
-		cards
+
+		self.cards = cards;
 	}
 	
-	pub fn add_card(&mut self, card: BlackJackCard) {
+	pub fn shuffle(&mut self) {
+		self.cards.shuffle(&mut rand::thread_rng());
+	}
+	
+	pub fn push(&mut self, card: BlackJackCard) {
 		self.cards.push(card);
 	}
 	
-	pub fn deal_card(&mut self) -> BlackJackCard {
-		self.cards.pop() // returns Option<BlackJackCard>
-			.expect("No more cards in deck") // returns BlackJackCard;
+	pub fn pop(&mut self) -> BlackJackCard {
+		self.cards.pop().expect("No more cards in deck")
 	}
 	
-	pub fn get_cards_sum(&self) -> u8 {
+	pub fn get_sum(&self) -> u8 {
 		let mut sum = 0;
 		let mut aces_count = 0;
 		for card in &self.cards {

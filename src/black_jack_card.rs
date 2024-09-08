@@ -1,3 +1,5 @@
+use std::fmt::{Display, Formatter, Result};
+
 #[derive(Clone)]
 pub enum Suit {
     Clubs,
@@ -6,8 +8,8 @@ pub enum Suit {
     Spades,
 }
 
-impl std::fmt::Display for Suit {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+impl Display for Suit {
+    fn fmt(&self, f: &mut Formatter) -> Result {
         match self {
             Suit::Clubs => write!(f, "Clubs"),
             Suit::Diamonds => write!(f, "Diamonds"),
@@ -22,16 +24,16 @@ pub struct BlackJackCard {
     pub value: u8,
     pub name: String,
     pub is_face_up: bool,
-    pub name_starts_with_vowel: bool,
 }
 
 // make struct printable
-impl std::fmt::Display for BlackJackCard {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+impl Display for BlackJackCard {
+    fn fmt(&self, f: &mut Formatter) -> Result {
         write!(
             f,
-            "{} {} of {}",
-            (if self.name_starts_with_vowel {"An"} else {"A"}),
+            "{} {} {} of {}",
+            (if self.is_face_up {"An"} else {"A"}),
+            (if self.is_face_up {"up"} else {"down"}),
             self.name,
             self.suit
         )
@@ -44,7 +46,6 @@ impl BlackJackCard {
             suit,
             value,
             is_face_up,
-            name_starts_with_vowel: ["Ace", "8"].contains(&name.as_str()),
             name,
         }
     }

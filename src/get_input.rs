@@ -1,6 +1,6 @@
 use std::io::{self, Write};
 
-fn integer_between_values(min: i32, max: i32) -> i32 {
+pub fn integer_between_values(min: i32, max: i32) -> i32 {
     let mut input = String::new();
     loop {
         print!("Please enter an integer between {} and {}: ", min, max);
@@ -17,7 +17,7 @@ fn integer_between_values(min: i32, max: i32) -> i32 {
     }
 }
 
-fn integer_with_values(values: Vec<i32>) -> i32 {
+pub fn integer_with_values(values: Vec<i32>) -> i32 {
 	let mut input = String::new();
 	loop {
 		print!("Please enter an integer from the following list: ");
@@ -38,7 +38,7 @@ fn integer_with_values(values: Vec<i32>) -> i32 {
 	}
 }
 
-fn string_with_values(values: Vec<String>) -> String {
+pub fn string_with_values(values: Vec<String>) -> String {
 	let mut input = String::new();
 	loop {
 		print!("Please enter a string from the following list: ");
