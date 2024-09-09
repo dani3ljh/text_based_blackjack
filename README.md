@@ -1,2 +1,4 @@
-rust translation of my C# text based black jack
-but neither are done yet so which ever i feel like doing first might be done first
+# text_based_blackjack
+
+- currently doesn't allow choosing whether ace is 1 or 11
+    - it just assumes 11 until to high
